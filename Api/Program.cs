@@ -1,13 +1,22 @@
+using Api;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var port = Environment.GetEnvironmentVariable("PORT") ?? Environment.GetEnvironmentVariable("ASPNETCORE_HTTP_PORTS") ?? "8080";
+builder.WebHost.UseUrls($"http://*:{port}");
 
+// Add services to the container.
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddSingleton<SpotifyTokenService>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
+
+
+var tokenService = app.Services.GetRequiredService<SpotifyTokenService>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -15,6 +24,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseHealthChecks("/health");
 
 app.UseHttpsRedirection();
 

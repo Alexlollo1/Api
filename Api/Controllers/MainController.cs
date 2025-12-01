@@ -17,7 +17,6 @@ namespace Api.Controllers
             {
                 HttpRequestMessage request = new()
                 {
-                Console.WriteLine(1);
                     Method = HttpMethod.Get,
                     RequestUri = new Uri(Links.Uri + $"search?q=track:{track}%20artist:{artist}&type=track"),
                     Headers =
@@ -25,9 +24,8 @@ namespace Api.Controllers
                         Authorization = new AuthenticationHeaderValue("Bearer", SpotifyTokenService.CachedSpotifyToken.AccessToken)
                     
                     }
-                    Console.WriteLine(2);
                 };
-
+Console.WriteLine(1);
                 HttpResponseMessage response = await client.SendAsync(request);
                 Console.WriteLine(3);
                 string content = await response.Content.ReadAsStringAsync();

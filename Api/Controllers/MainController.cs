@@ -17,17 +17,21 @@ namespace Api.Controllers
             {
                 HttpRequestMessage request = new()
                 {
+                Console.WriteLine(1);
                     Method = HttpMethod.Get,
                     RequestUri = new Uri(Links.Uri + $"search?q=track:{track}%20artist:{artist}&type=track"),
                     Headers =
                     {
                         Authorization = new AuthenticationHeaderValue("Bearer", SpotifyTokenService.CachedSpotifyToken.AccessToken)
+                    Console.WriteLine(2);
                     }
                 };
 
                 HttpResponseMessage response = await client.SendAsync(request);
+                Console.WriteLine(3);
                 string content = await response.Content.ReadAsStringAsync();
                 var trackObj = JsonConvert.DeserializeObject<TracksObject>(content);
+                Console.WriteLine(4);
                 return trackObj;
             }
         }

@@ -23,8 +23,9 @@ namespace Api.Controllers
                     Headers =
                     {
                         Authorization = new AuthenticationHeaderValue("Bearer", SpotifyTokenService.CachedSpotifyToken.AccessToken)
-                    Console.WriteLine(2);
+                    
                     }
+                    Console.WriteLine(2);
                 };
 
                 HttpResponseMessage response = await client.SendAsync(request);
